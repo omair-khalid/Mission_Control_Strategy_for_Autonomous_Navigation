@@ -1,0 +1,4 @@
+## Service 
+geometry_msgs/Pose2D waypoint
+---
+bool accepted

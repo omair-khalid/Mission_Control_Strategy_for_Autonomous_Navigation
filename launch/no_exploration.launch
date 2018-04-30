@@ -1,0 +1,27 @@
+<launch>
+    <!-- Read launch arguments -->
+    <arg name="t" default="60"/>
+    <!-- Set the arguments to parameters -->
+    <param name="exploration_time" value="$(arg t)"/>
+
+
+    <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+    <include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch">
+    <!-- more default parameters can be changed here -->
+    <arg name="world_file" value="worlds/willowgarage.world"/> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+    <arg name="gui" default="false"/>
+    </include>
+    
+
+    <node pkg="autonomous_nav" type="laserscan_to_pointcloud" name="laserscan_to_pointcloud" respawn="true" output="screen" />
+
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" args=" " cwd="node" output="screen">
+        <param name="frame_id"   value="/odom" />
+        <remap from="/cloud_in"  to="/pc_from_scan" /> <!-- simulator -->
+        <param name="resolution" value="0.075" />
+        <param name="latch"      value="False" />
+        <!--remap from="/cloud_in" to="/camera/depth_registered/points" /--> <!-- real turtlebot -->
+    </node>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find autonomous_nav)/launch/config/robot.rviz" />
+</launch>
