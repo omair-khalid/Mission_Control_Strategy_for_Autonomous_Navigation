@@ -4,6 +4,6 @@ Using Potential Field path planning, a Frontier-based exploration strategy was d
 
 Project members:
 
-Albert Clerigues
-Omair Khalid
+Albert Clerigues | 
+Omair Khalid | 
 Wajahat Akhtar
